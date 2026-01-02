@@ -16,7 +16,7 @@ app.use(cors({
 app.use(express.json());
 
 /* ================= MongoDB ================= */
-const MONGO_URI = process.env.MONGODB_URI;
+const MONGO_URI = "mongodb+srv://gowthamm8743_db_user:9TEWIajUCcnuAuHu@cluster0.gbkarlu.mongodb.net/gowtham_portfolio";
 
 if (!MONGO_URI) {
   console.error('❌ MONGODB_URI missing');
