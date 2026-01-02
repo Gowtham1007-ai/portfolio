@@ -12,9 +12,21 @@ app.use(express.json());
 // Connect to MongoDB - SIMPLIFIED VERSION
 const connectDB = async () => {
   try {
+
+    mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB error:", err.message));
+
     // Remove the options object - use simple connection string
     await mongoose.connect('mongodb://localhost:27017/gowtham_portfolio');
     console.log('✅ MongoDB Connected Successfully');
+
+    const cors = require("cors");
+
+app.use(cors({
+  origin: "https://portfolio-1-5jqk.onrender.com"
+}));
+
     
     // Define Portfolio schema
     const portfolioSchema = new mongoose.Schema({

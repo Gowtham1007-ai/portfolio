@@ -21,8 +21,8 @@ function App() {
   const fetchPortfolioData = async () => {
     try {
       // Try to fetch from backend
-      const response = await axios.get('http://localhost:5000/api/portfolio', {
-        timeout: 5000 // 5 second timeout
+      const response =  await axios.get(`${API_URL}/api/portfolio`, {
+      timeout: 5000
       })
       setPortfolioData(response.data)
       setBackendStatus('connected')
