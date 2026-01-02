@@ -3,31 +3,36 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+/* =======================
+   Middleware
+======================= */
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://portfolio-1-5jqk.onrender.com'
+  ]
+}));
 app.use(express.json());
 
-// Connect to MongoDB - SIMPLIFIED VERSION
-const connectDB = async () => {
-  try {
+/* =======================
+   MongoDB Connection
+======================= */
+const MONGO_URI = process.env.MONGODB_URI;
 
-    mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB error:", err.message));
+if (!MONGO_URI) {
+  console.error('❌ MONGODB_URI is not defined');
+  process.exit(1);
+}
 
-    // Remove the options object - use simple connection string
-    await mongoose.connect('mongodb://localhost:27017/gowtham_portfolio');
-    console.log('✅ MongoDB Connected Successfully');
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected successfully'))
+  .catch(err => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
 
-    const cors = require("cors");
-
-app.use(cors({
-  origin: "https://portfolio-1-5jqk.onrender.com"
-}));
-
-    
     // Define Portfolio schema
     const portfolioSchema = new mongoose.Schema({
       name: String,
@@ -119,14 +124,13 @@ app.use(cors({
       
       await portfolioData.save();
       console.log('✅ Initial portfolio data created in MongoDB');
-    } else {
+    } try {
       console.log('✅ Portfolio data already exists in MongoDB');
     }
-  } catch (err) {
+   catch (err) {
     console.log('❌ MongoDB Connection Error:', err.message);
     console.log('⚠️ Using in-memory data instead');
-  }
-};
+  };
 
 // Call the connection function
 connectDB();
