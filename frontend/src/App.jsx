@@ -21,7 +21,7 @@ function App() {
   const fetchPortfolioData = async () => {
     try {
       // Try to fetch from backend
-      const response =  await axios.get(`https://portfolio-23-s578.onrender.com/api/portfolio`, {
+      const response =  await axios.get(`https://portfolio-12-tvbc.onrender.com/api/portfolio`, {
       timeout: 5000
       })
       setPortfolioData(response.data)
